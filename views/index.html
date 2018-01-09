@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>首页页面</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body>
+  <ul>
+  {%for item in data%}
+    <li>{{item.app_name}}</li>
+    <li>{{item.token}}</li>
+    <li>{{item.domain}}</li>
+    <li>{{item.add_time}}</li>
+  {%else%} <li>无数据</li> 
+  {%endfor%}
+</ul>
+</body>
+
+</html>
