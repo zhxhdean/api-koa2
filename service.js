@@ -8,8 +8,8 @@ module.exports = {
   // 登录
   login:async function (username) {
     let sql = 'select password from account where username = ?'
-    let result = await query(sql, [username]) || ''
-    if(result) {
+    let result = await query(sql, [username])
+    if(result && result.length === 1) {
       return result[0].password
     }
     return ''
