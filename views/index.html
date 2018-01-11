@@ -1,23 +1,24 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <title>首页页面</title>
+  <title>{%block title%}{%endblock%}</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="/css/main.css">
 </head>
 
 <body>
-  <ul>
-  {%for item in data%}
-    <li>{{item.app_name}}</li>
-    <li>{{item.token}}</li>
-    <li>{{item.domain}}</li>
-    <li>{{item.add_time}}</li>
-  {%else%} <li>无数据</li> 
-  {%endfor%}
-</ul>
+{% block content %}
+<input type="text" placeholder="输入签名" name="token"/>
+<input type="button" value="验证签名" onclick="validate()"/>
+{% endblock %}
 </body>
+<script src="https://cdn.bootcss.com/jquery/1.12.2/jquery.min.js"></script>
+{% block js%}
+<script src="/js/test.js"></script>
+{% endblock%}
 
 </html>

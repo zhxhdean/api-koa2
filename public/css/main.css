@@ -15,6 +15,21 @@ ul li {
   list-style: none;
   line-height: 0%;
 }
+
+input {
+  margin-bottom:10px;
+  width:193px;
+  height:30px;
+  border-radius: 5px;
+  border:1px solid #ddd;
+  padding-left:5px;
+}
+input[type="button"] {
+  padding:5px 15px;
+  width:100px;
+  margin:10px 0px 5px 25px;
+}
+
 .mask{
   position: fixed;
   width:200%;
@@ -52,3 +67,4 @@ background: #fff;
   width:60px;
   margin:10px 0px 5px 25px;
 }
+
