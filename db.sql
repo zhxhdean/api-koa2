@@ -12,13 +12,20 @@ CREATE TABLE IF NOT EXISTS `app`(
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+DROP TABLE IF EXISTS `account`;
 CREATE TABLE IF NOT EXISTS `account`(
 `account_id` INT AUTO_INCREMENT,
 `username` VARCHAR(20) NOT NULL,
 `password` VARCHAR(32) NOT NULL,
+`email` VARCHAR(50) DEFAULT '',
+`phone` CHAR(11) DEFAULT '',
+`company` VARCHAR(50) DEFAULT '',
+`job` VARCHAR(20) DEFAULT '',
 `add_time` DATETIME,
 `last_time` DATETIME,
 PRIMARY KEY (`account_id`)
 )ENGINE = InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO ACCOUNT VALUES(0,'zhxh','202cb962ac59075b964b07152d234b70','','','','',now(),now());
 
 INSERT INTO APP VALUES(0,'销售一点通','123qwe','sales.benlai.com',now());

@@ -3,7 +3,7 @@ const {SUCCESS, TOKEN_ERROR, TOKEN_TIMEOUT_ERROR, TOKEN_IMMINENT_TIMEOUT} = requ
 module.exports = {
   // 验证token
   validate: function (token) {
-    const now = new Date()
+    const now = Date.now()
     try {
       const decryp = aesDecryption(token).split(':')[1]
       const decryp_time = new Date(decryp)
@@ -25,7 +25,7 @@ module.exports = {
   createToken: function (str) {
     try {
       // 当前时间做aes 加密
-      let now = new Date()
+      let now = Date.now()
       // token = username:date
       return aesEncryption(`${str}:${now}`)
     } catch (err) {
