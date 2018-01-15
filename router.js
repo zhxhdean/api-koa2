@@ -11,7 +11,8 @@ module.exports = (app) => {
   router.get('/login', controller.login_page)
 
   router.post('/login', controller.login)
-
+  router.get('/user', controller.getUser)
+  router.post('/user', controller.setUser)
   router.get('/*', controller.notFound)
   app
     .use(router.routes())

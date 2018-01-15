@@ -1,8 +1,8 @@
 const {cryptoMD5} = require('./cryption')
 
-const {EMPTY_PARAMETERS, SUCCESS, INCORRECT_PASSWORD} = require('./errorcode')
+const {EMPTY_PARAMETERS, SUCCESS, INCORRECT_PASSWORD, NO_USER, TOKEN_ERROR, TOKEN_IMMINENT_TIMEOUT, CHANGE_USER_FAIL} = require('./errorcode')
 const service = require('./service')
-const {validate, createToken} = require('./utils')
+const {validate, createToken, getUserNameFromToken} = require('./utils')
 module.exports = {
   index: async(ctx, next) => {
     await ctx.render('index')
@@ -54,6 +54,54 @@ module.exports = {
     ctx.response.body = {
       code: code,
       token: token
+    }
+  },
+  getUser: async(ctx, next) => {
+    const {token} = ctx.request.query
+    const username = getUserNameFromToken(token)
+    let code = ''
+    let user = {};
+    if (username === '') {
+      code = TOKEN_ERROR 
+    } else {
+      const result = await service.getUser(username)
+      if (result === '') {
+        code = NO_USER
+      } else {
+        user = {userInfo: {
+          id: result.account_id,
+          username: result.username,
+          email: result.email,
+          phone: result.phone,
+          company: result.company,
+          job: result.job
+        }}
+        code = SUCCESS
+      }
+    }
+    ctx.response.body = {
+      code: code,
+      ...user
+    }
+  },
+  setUser: async(ctx, next) => {
+    const {user, token} = ctx.request.body
+    const valid = validate(token)
+    if(valid !== SUCCESS && valid !== TOKEN_IMMINENT_TIMEOUT) {
+      ctx.response.body = {
+        code: valid
+      }
+    } else {
+      const result = await service.setUser(user)
+      if(result) {
+        ctx.response.body = {
+          code: SUCCESS
+        }
+      } else {
+        ctx.response.body = {
+          code: CHANGE_USER_FAIL
+        }
+      }
     }
   },
 
