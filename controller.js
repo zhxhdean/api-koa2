@@ -39,12 +39,14 @@ module.exports = {
     let {username, password} = ctx.request.body
     let code = INCORRECT_PASSWORD
     let token = ''
+    let uid = ''
     if (username && password) {
-      let _password = await service.login(username)
+      let result = await service.login(username)
       // 登录成功
-      if (cryptoMD5(password) === _password) {
+      if (cryptoMD5(password) === result.password) {
         // 登录成功后生成token,返回给客户端
         token = createToken(username)
+        uid =result.account_id
         code = SUCCESS
       }
     } else {
@@ -53,7 +55,8 @@ module.exports = {
     }
     ctx.response.body = {
       code: code,
-      token: token
+      token: token,
+      uid: uid
     }
   },
   getUser: async(ctx, next) => {
@@ -105,6 +108,41 @@ module.exports = {
     }
   },
 
+  setProject: async(ctx, next) => {
+    const {token, project} = ctx.request.body
+    const valid = validate(token)
+    if(valid !== SUCCESS && valid !== TOKEN_IMMINENT_TIMEOUT) {
+      ctx.response.body = {
+        code: valid
+      }
+    } else {
+      const result = await service.setProject(project)
+      if(result) {
+        ctx.response.body = {
+          code: SUCCESS
+        }
+      } else {
+        ctx.response.body = {
+          code: CHANGE_USER_FAIL
+        }
+      }
+    }
+  },
+  getProject: async(ctx, next) => {
+    const {account_id, app_id, token} = ctx.request.query
+    const valid = validate(token)
+    if(valid !== SUCCESS && valid !== TOKEN_IMMINENT_TIMEOUT) {
+      ctx.response.body = {
+        code: valid
+      }
+    } else {
+      const result = await service.getProject(+account_id, +app_id)
+      ctx.response.body = {
+        code: SUCCESS,
+        projects: result
+      }
+    }
+  },
   notFound: async(ctx, next) => {
     await ctx.render('404')
   }

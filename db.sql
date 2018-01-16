@@ -2,13 +2,18 @@ CREATE DATABASE `frontdb` DEFAULT CHARACTER
 SET utf8
 COLLATE utf8_general_ci;
 
+DROP TABLE IF EXISTS `app`;
 CREATE TABLE IF NOT EXISTS `app`(
    `app_id` INT AUTO_INCREMENT,
+   `account_id` INT,
    `app_name` VARCHAR(20) NOT NULL,
-   `token` VARCHAR(32) NOT NULL,
+   `description` VARCHAR(100) DEFAULT '',
+   `token` VARCHAR(32) DEFAULT '',
    `domain` VARCHAR(32) NOT NULL,
    `add_time` DATETIME,
-   PRIMARY KEY ( `app_id` )
+   `last_time` DATETIME,
+   PRIMARY KEY ( `app_id` ),
+   CONSTRAINT `FKapp_account_appid_account_id` FOREIGN KEY(`account_id`) REFERENCES `account`(`account_id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
