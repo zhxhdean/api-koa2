@@ -64,8 +64,8 @@ module.exports = {
         // 新增
         /* 
         */
-        const sql = 'insert into app(app_id, account_id, app_name, description, token, domain, add_time, last_time) values(0,?,?,?,?,?,now(),now())'
-        const result = await query(sql, [project.account_id, project.app_name, project.description, project.token || '', project.domain])
+        const sql = 'insert into app(app_id, account_id, app_name, description, token, domain, add_time, last_time) values(0,?,?,?,replace(uuid(),"-",""),?,now(),now())'
+        const result = await query(sql, [project.account_id, project.app_name, project.description, project.domain||''])
         if(result && result.affectedRows === 1 && result.insertId > 0){
           return true
         }
@@ -97,6 +97,53 @@ module.exports = {
     } catch(err) {
       console.log(err)
       return null
+    }
+  },
+  //获取项目,通过token
+  getAppIDByToken:async function (token, domain = '') {
+    try {
+      let sql = 'select app_id from app where token = ?'
+      if(domain) {
+        sql += ' and domain = ?'
+      }
+      const result = await query(sql, [token, domain])
+      if(result && result.length > 0) {
+        return result[0].app_id
+      }
+      return 0
+    } catch(err) {
+      console.log(err)
+      return 0
+    }
+  },
+  //写入拦截请求
+  addRequest:async function(request) {
+    try {
+      const sql = `insert into request(request_id,app_id,current_url,referer_url,client_id,request_url,request_data,response_status,
+        timing,useragent,add_time) values(0,?,?,?,?,?,?,?,?,?,now())`
+      const result = await query(sql, [request.app_id, request.current_url, request.referer_url || '', request.client_id, request.request_url, request.request_data || '',
+      request.response_status, request.timing, request.useragent, request.add_time])
+      if(result && result.affectedRows === 1 && result.insertId > 0) {
+        return true
+      }
+      return false
+    } catch(err) {
+      console.log(err.sql)
+      return false
+    }
+  },
+  //写异常
+  addError:async function(request) {
+    try {
+      const sql = 'insert into error values(0,?,?,?,?,?,?,?,now())'
+      const result = await query(sql, [request.app_id, request.current_url, request.client_id, request.useragent, request.message, request.source, request.line])
+      if(result && result.affectedRows === 1 && result.insertId > 0) {
+        return true
+      }
+      return false
+    } catch(err) {
+      console.log(err.sql)
+      return false
     }
   }
 }

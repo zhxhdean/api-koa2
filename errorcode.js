@@ -14,7 +14,8 @@ module.exports = {
   TOKEN_TIMEOUT_ERROR: 11,
   // token即将过期(属于成功验证token)
   TOKEN_IMMINENT_TIMEOUT:12,
-
+  // 不存在app
+  NO_APP: 15,
   // 用户信息更新失败
   CHANGE_USER_FAIL: 30
 }

@@ -15,7 +15,8 @@ module.exports = (app) => {
   router.post('/user', controller.setUser)
   router.get('/project', controller.getProject)
   router.post('/project', controller.setProject)
-  
+
+  router.post('/collect', controller.collect)
   router.get('/*', controller.notFound)
   app
     .use(router.routes())

@@ -1,6 +1,7 @@
 const {cryptoMD5} = require('./cryption')
 
-const {EMPTY_PARAMETERS, SUCCESS, INCORRECT_PASSWORD, NO_USER, TOKEN_ERROR, TOKEN_IMMINENT_TIMEOUT, CHANGE_USER_FAIL} = require('./errorcode')
+const {EMPTY_PARAMETERS, SUCCESS, INCORRECT_PASSWORD, NO_USER, TOKEN_ERROR, 
+  TOKEN_IMMINENT_TIMEOUT, CHANGE_USER_FAIL, NO_APP} = require('./errorcode')
 const service = require('./service')
 const {validate, createToken, getUserNameFromToken} = require('./utils')
 module.exports = {
@@ -142,6 +143,28 @@ module.exports = {
         projects: result
       }
     }
+  },
+  collect:async(ctx, next) => {
+    const {type, data} = ctx.request.body
+    const app_id = await service.getAppIDByToken(data.token)
+    if(!app_id) {
+      ctx.response.body = {
+        code: NO_APP
+      }
+    } else {
+      data.app_id = app_id
+      if(type === 0) {
+        // 拦截ajax
+        await service.addRequest(data)
+      } else {
+        // 异常
+        await service.addError(data)
+      }
+      ctx.response.body = {
+        code: SUCCESS
+      }
+    }
+    
   },
   notFound: async(ctx, next) => {
     await ctx.render('404')

@@ -6,8 +6,7 @@ const {SUCCESS, TOKEN_ERROR, TOKEN_TIMEOUT_ERROR, TOKEN_IMMINENT_TIMEOUT} = requ
 var validate = function (token) {
   const now = Date.now()
   try {
-    const decryp = aesDecryption(token).split(':')[1]
-    const decryp_time = new Date(decryp)
+    const decryp_time = aesDecryption(token).split(':')[1]
     // 相差的毫秒
     const sub = now - decryp_time
     if (sub > 12 * 60 * 60 * 1000) {
