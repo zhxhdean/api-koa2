@@ -16,6 +16,9 @@ module.exports = {
     }
 
   },
+  test: async(ctx, next) => {
+    await ctx.render('test')
+  },
   home: async(ctx, next) => {
     ctx.response.body = `<h1>home page</h1><a href="/users/zhxh">zhxh</a>`
   },

@@ -7,6 +7,7 @@ module.exports = (app) => {
   router.post('/valid', controller.valid)
 
   router.get('/home', controller.home)
+  router.get('/test', controller.test)
 
   router.get('/login', controller.login_page)
 

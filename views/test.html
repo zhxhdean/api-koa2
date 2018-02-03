@@ -1,0 +1,35 @@
+{% extends 'layout.html'%} {%block title%}javascript页面{%endblock%} 
+
+{%block content%}
+
+<form id="register" method="post" >
+<input type="text" name="userName"/>
+<input type="password" name="passWord"/>
+<input type="text" name="phone"/>
+<button>提交</button>
+
+
+</form>
+<input type="text" id="news"/>
+<button onclick="subscribe()">订阅新闻</button>
+<button onclick="publish()">发布新闻</button>
+<div style="height:300px;background:#f20;overflow-y:scroll" id="container">
+<div style="height:2000px;position: relative">
+  <div style="height:400px"></div>
+  <img width="100px" class="imgLazyLoad" data-src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1516966906954&di=fc8b04fd81528e8ee538fa583ca3e844&imgtype=jpg&src=http%3A%2F%2Fimg1.imgtn.bdimg.com%2Fit%2Fu%3D3113153671%2C3782273400%26fm%3D214%26gp%3D0.jpg" />
+</div>
+</div>
+<div style="height:500px;background:#0f2">
+  
+</div>
+{%endblock%}
+
+{% block js%}
+<script src="/js/t.js"></script>
+<!-- <script>
+  console.log(proxyMult(1,2,3,4));
+  console.log(proxyMult(1,2,3,4));
+  console.log(proxyMult(1,2,3,4));
+  proxyImage('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1516966906954&di=fc8b04fd81528e8ee538fa583ca3e844&imgtype=jpg&src=http%3A%2F%2Fimg1.imgtn.bdimg.com%2Fit%2Fu%3D3113153671%2C3782273400%26fm%3D214%26gp%3D0.jpg')
+</script> -->
+{% endblock%}

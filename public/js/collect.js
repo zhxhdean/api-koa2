@@ -1,5 +1,9 @@
-(function collect() {
-
+(function collect(window, document) {
+	let err = console.error;		
+	window.console.error = (str) => {
+		alert(str);
+		err(str);
+	}
 		function get_base() {
 				const client_id = getClientID();
 				const current_url = window.location.href;
@@ -149,6 +153,7 @@
 		}
 
 		document.body.onload = () => {
+		
 				//     let timing = performance.timing,      start = timing.navigationStart,
 				// dnsTime = 0,      tcpTime = 0,      firstPaintTime = 0,      domRenderTime =
 				// 0,      loadTime = 0; console.log(timing.loadEventEnd) dnsTime =
@@ -160,9 +165,6 @@
 				// '\nTCP建立时间:', tcpTime, '\n首屏时间:', firstPaintTime,  '\ndom渲染完成时间:',
 				// domRenderTime, '\n页面onload时间:', loadTime);
 		}
-
-		window.addEventListener('error', (event) => {
-			console.log(event)
 			// 	postAjax('http://localhost:3000/collect', {
 			// 		type: 1,
 			// 		data: {
@@ -173,6 +175,6 @@
 			// 		}
 			// })
 			// console.log('message:%s,source:%s,lineno:%s,colno:%s,error:%s', message, source, lineno, colno, error)
-		})
 
-})()
+
+})(window, document)
